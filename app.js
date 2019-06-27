@@ -14,11 +14,11 @@ mongoose
   .then(() => console.log("MongoDB connected!"))
   .catch(err => console.log(err));
 
-// Render index page
-app.get('/', (req, res) => {
+/* Render index page
+app.get('', (req, res) => {
   console.log("GET /");
   res.sendFile(path.join(__dirname+'/index.html'));
-});
+});*/
 
 // Render chart page
 app.get('/chart', (req, res) => {
@@ -33,5 +33,10 @@ app.use('/api', accounts);
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`App listening on port ${port}!`))
 app.use('/static', express.static('static'))
+
+app.use(function (req, res, next) {
+  console.log("!");
+  res.status(405).json({err: ["Can't find the api"]});
+});
 
 module.exports = app;
