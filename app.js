@@ -36,7 +36,7 @@ app.use('/static', express.static('static'))
 
 app.use(function (req, res, next) {
   console.log("!");
-  res.status(405).json({err: ["Can't find the api"]});
+  res.status(405).json({errors: ["Can't find the api!"]});
 });
 
 module.exports = app;
