@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="description" content="">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Landis Coding Challenge</title>
+<link rel="alternate" type="application/rss+xml" title="arlinadesign.blogspot.com" href="feed/index.html">
+<link href="http://fonts.googleapis.com/css?family=Raleway:700,600,500,400,300" rel="stylesheet" type="text/css">
+<link href='http://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css' rel='stylesheet'/>
+<link rel="stylesheet" href="../static/assets/css/style.css">
+<link rel="stylesheet" href="../static/assets/css/prettify.css">
+<link rel="stylesheet" href="../static/assets/button.css" type="text/javascript">
+<link rel="stylesheet" href="../static/assets/css/bootstrap.css" type="text/javascript">
+</head>
+
+<body >
+  <nav>
+    <div class="container">
+      <div id="menu">
+        <ul class="toplinks">
+          <li><a href="" target='_self'></a></li>
+          <li><a href="" target='_self'></a></li>
+          <li><a href="" target='_blank'></a></li>
+          <li align="right"><a href="./" target='_self' align="right">All accounts</a></li>
+        </ul>
+      </div>
+      <a id="menu-toggle" href="#" class=" ">&#9776;</a> </div>
+  </nav>
+  <header>
+    <div class="container"  >
+      <h2 class="docs-header">Landis Coding Challenge</h2>
+    </div>
+    
+  </header>
+  <section>
+    <div class="container">
+      <ul class="docs-nav" id="menu-left">
+        <li><strong>Account Informations</strong></li>
+        <li><a href="#Theme_Info" class=" "></a></li>
+      </ul>
+    <div class="docs-content">
+        
+        <h2>Bar Charts</h2>
+        <div id='app'>
+            
+            <svg class="bar-chart"></svg>
+            <p align='center'><strong> Credit Distribution </strong></p>
+            <hr>
+            <br>
+       </div>
+      <h2></h2>
+
+    <p></p>
+      <p><span class="small_title"><a href=""></span></p>
+        
+     
+  </section>
+  <section class="vibrant centered">
+    <div class="container">
+      <h4></h4>
+    </div>
+  </section>
+  <footer>
+    <div class="container">
+      <p> </p>
+    </div>
+  </footer>
+  
+  <a class="totop" href="#">Top</a>
+
+<script src="https://unpkg.com/vue"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+    
+	var vm = new Vue({
+		el: '#app',
+        data(){
+            return{
+                message: null
+            } 
+        },
+        mounted() {
+            axios.get('https://afternoon-journey-23336.herokuapp.com/api/credit')
+                .then(response => (this.message = response.data))
+                .then(() => {
+                    var data = this.message["y"];
+
+                    var svgWidth = 600, svgHeight = 300, barPadding = 5;
+                    var barWidth = ((svgWidth-100) / (data.length));
+
+
+                    var svg = d3.select('svg')
+                        .attr("width", svgWidth)
+                        .attr("height", svgHeight);
+
+                        var barChart = svg.selectAll("rect")
+                            .data(data)
+                            .enter()
+                            .append("rect")
+                            .attr("y", function(d) {
+                                return svgHeight - d*8;
+                            })
+                            .attr("height", function(d) { 
+                                return d*8; 
+                            })
+                            .attr("width", barWidth-1)
+                            .attr("class", "bar")
+                            .attr("transform", function (d, i) {
+                                var translate = [barWidth * i + 50, -30]; 
+                                return "translate("+ translate +")";
+                            });
+
+                        var text = svg.selectAll("text")
+                            .data(data)
+                            .enter()
+                            .append("text")
+                            .text(function(d) {
+                                return d;
+                            })
+                            .attr("y", function(d, i) {
+                                return svgHeight - d*8 - 2;
+                            })
+                            .attr("x", function(d, i) {
+                                return barWidth * i + 50;
+                            })
+                            .attr("transform", function (d, i) {
+                                var translate = [20, -30]; 
+                                return "translate("+ translate +")";
+                            })
+                            .attr("fill", "#A64C38");
+                        
+                        var xScale = d3.scaleLinear()
+                            .domain([0, 900])
+                            .range([0, svgWidth-100]);
+                                
+                        var yScale = d3.scaleLinear()
+                            .domain([0, 30])
+                            .range([svgHeight, 50]);
+
+                        var x_axis = d3.axisBottom()
+                            .scale(xScale);
+
+                        var y_axis = d3.axisLeft()
+                            .scale(yScale);
+                            
+                        var yAxisTranslate = svgHeight-50;
+
+                        svg.append("g")
+                            .attr("transform", "translate(50, -30)")
+                            .call(y_axis);
+                                
+                        var xAxisTranslate = svgHeight-30;
+                                
+                        svg.append("g")
+                            .attr("transform", "translate(50, " + xAxisTranslate  +")")
+                            .call(x_axis);
+                    }
+                );
+        }
+    });
+   
+</script> 
+
+  <script type="text/javascript" src="../static/assets/js/jquery.min.js"></script> 
+  <script type="text/javascript" src="../static/assets/js/prettify/prettify.js"></script> 
+  
+  <script  type="text/javascript" src="../static/assets/js/layout.js"></script>
+   <script src="../static/assets/js/jquery.localscroll-1.2.7.js" type="text/javascript"></script>
+   <script src="../static/assets/js/jquery.scrollTo-1.4.3.1.js" type="text/javascript"></script>
+   <script src="../static/assets/js/top.js" type="text/javascript"></script>
+  </body>
+</html>
