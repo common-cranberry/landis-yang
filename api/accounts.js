@@ -51,8 +51,15 @@ router.delete('/:id', (req, res) => {
 // @access Public
 router.post('/find', (req, res) => {
   console.log("POST /api/find");
+  
   Account.find({name_last: req.body.name_last})
-    .then(accounts => res.json({success: true, detail: accounts}))
+    .then(accounts => {
+      if(accounts.length == 0){
+        res.json({success: false, reason: "Cannot find one"});
+      }else{
+        res.json({success: true, detail: accounts});
+      }
+    })
   .catch(err => res.status(404).json({success: false}));
 });
 
